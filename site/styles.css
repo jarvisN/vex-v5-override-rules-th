@@ -632,6 +632,46 @@ input[type="search"] {
   font-weight: 800;
 }
 
+.page-rule-digest {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
+
+.page-rule-digest h4 {
+  color: var(--ink);
+  font-size: 0.98rem;
+}
+
+.digest-rule {
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+  border-left: 4px solid var(--blue);
+  background: #f8f6ef;
+}
+
+.digest-rule.warning {
+  border-left-color: var(--yellow);
+}
+
+.digest-rule.danger {
+  border-left-color: var(--red);
+}
+
+.digest-rule p {
+  color: #3f4550;
+}
+
+.digest-rule em,
+.more-rules {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-style: normal;
+}
+
 input:focus {
   border-color: var(--blue);
   outline: 3px solid rgba(41, 95, 168, 0.16);

@@ -39,7 +39,26 @@ window.PAGE_TRANSLATIONS = [
       "SG1",
       "SG2",
       "SG3",
-      "SG4"
+      "SG4",
+      "SG5",
+      "SG6",
+      "SG7",
+      "SG8",
+      "SG9",
+      "SG10",
+      "SG11",
+      "SG12",
+      "S1",
+      "S2",
+      "S3",
+      "S4",
+      "S5",
+      "G1",
+      "G2",
+      "G3",
+      "G4",
+      "G5",
+      "G6"
     ]
   },
   {
@@ -57,7 +76,29 @@ window.PAGE_TRANSLATIONS = [
       "GG9",
       "GG10",
       "GG11",
-      "GG12"
+      "GG12",
+      "GG13",
+      "GG14",
+      "GG15",
+      "GG16",
+      "GG17",
+      "GG18",
+      "RSC1",
+      "RSC2",
+      "RSC3",
+      "RSC4",
+      "RSC5",
+      "R1",
+      "R2",
+      "R3",
+      "R4",
+      "R5",
+      "R6",
+      "R7",
+      "R8",
+      "R9",
+      "R10",
+      "R11"
     ]
   },
   {
@@ -75,7 +116,32 @@ window.PAGE_TRANSLATIONS = [
       "R20",
       "R21",
       "R22",
-      "R23"
+      "R23",
+      "R24",
+      "R25",
+      "R26",
+      "R27",
+      "R28",
+      "T1",
+      "T2",
+      "T3",
+      "T4",
+      "T5",
+      "T6",
+      "T7",
+      "T8",
+      "T9",
+      "T10",
+      "T11",
+      "T12",
+      "T13",
+      "T14",
+      "T15",
+      "T16",
+      "T17",
+      "T18",
+      "T19",
+      "T20"
     ]
   },
   {
@@ -93,7 +159,27 @@ window.PAGE_TRANSLATIONS = [
       "VUG4",
       "VUG5",
       "VUG6",
-      "VUG7"
+      "VUG7",
+      "VURS1",
+      "VURS2",
+      "VURS3",
+      "VUT1",
+      "VUT2",
+      "VUT3",
+      "VUT4",
+      "VUT5",
+      "VUT6",
+      "VUT7",
+      "VUR1",
+      "VUR2",
+      "VUR3",
+      "VUR4",
+      "VUR5",
+      "VUR6",
+      "VUR7",
+      "VUR8",
+      "VUR9",
+      "VUR10"
     ]
   },
   {
@@ -593,7 +679,8 @@ window.PAGE_TRANSLATIONS = [
       "VUR9",
       "VUR12",
       "VUR14",
-      "VUR15"
+      "VUR15",
+      "R20"
     ]
   },
   {
@@ -840,7 +927,9 @@ window.PAGE_TRANSLATIONS = [
       "VUR10",
       "VUR12",
       "VUR14",
-      "VUR4"
+      "VUR4",
+      "VUR5",
+      "R28"
     ]
   },
   {

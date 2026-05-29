@@ -56,7 +56,9 @@ const ruleGroups = {
 };
 
 const allRules = Object.values(ruleGroups).flat().map(([code, title, text, tone]) => ({ code, title, text, tone }));
-const ruleTitleLookup = new Map(allRules.map((rule) => [rule.code, rule.title]));
+const knownRuleDetails = new Map(allRules.map((rule) => [rule.code, rule]));
+const externalRuleTitles = Object.entries(window.RULE_TITLES || {}).filter(([, title]) => title && !title.includes("?"));
+const ruleTitleLookup = new Map([...externalRuleTitles, ...allRules.map((rule) => [rule.code, rule.title])]);
 const pageSectionText = {
   cover: ["ปก", "หน้าปกของคู่มือ ระบุชื่อเกม Override ฤดูกาล 2026-2027 และเวอร์ชันของ Game Manual ที่ใช้เป็นแหล่งอ้างอิง"],
   copyright: ["ประกาศลิขสิทธิ์", "หน้าประกาศสิทธิ์และข้อจำกัดการใช้งาน เอกสารต้นฉบับเป็นทรัพย์สินทางปัญญาของผู้จัดและไม่ควรนำไปเผยแพร่ซ้ำโดยไม่ได้รับอนุญาต"],
@@ -80,7 +82,7 @@ const pageSectionText = {
 
 function pageTitle(page) {
   if (!page.ruleCodes.length) return pageSectionText[page.sectionKey]?.[0] || "Game Manual";
-  const titles = page.ruleCodes.slice(0, 3).map((code) => ruleTitleLookup.get(code) || code);
+  const titles = page.ruleCodes.slice(0, 3).map((code) => ruleTitleLookup.get(code) || fallbackRuleTitle(code));
   return `${titles.join(" / ")}${page.ruleCodes.length > 3 ? " และกฎต่อเนื่อง" : ""}`;
 }
 
@@ -92,13 +94,123 @@ function pageStudyNotes(page) {
   const notes = [];
   if (page.ruleCodes.length) {
     notes.push(`รหัสกฎที่ควรเปิดเทียบ: ${page.ruleCodes.slice(0, 8).join(", ")}`);
-    notes.push(`ประเด็นหลัก: ${page.ruleCodes.slice(0, 4).map((code) => ruleTitleLookup.get(code) || code).join("; ")}`);
+    notes.push(`ประเด็นหลัก: ${page.ruleCodes.slice(0, 4).map((code) => ruleTitleLookup.get(code) || fallbackRuleTitle(code)).join("; ")}`);
   }
   if (["scoring", "specific"].includes(page.sectionKey)) notes.push("อ่านร่วมกับ Appendix C เพราะหลายกฎมี violation notes เพิ่มเติม");
   if (page.sectionKey === "robot") notes.push("ควรใช้เป็น checklist ระหว่างออกแบบและก่อน inspection");
   if (page.sectionKey === "glossary") notes.push("นิยามใน glossary มีผลเหนือความหมายทั่วไปของคำ");
   if (!notes.length) notes.push("ใช้หน้านี้เพื่อจับตำแหน่งเนื้อหาในคู่มือก่อนอ่านรายละเอียดหัวข้อถัดไป");
   return notes.slice(0, 3);
+}
+
+function ruleFamily(code) {
+  if (code.startsWith("SC")) return "scoring";
+  if (code.startsWith("SG")) return "specific";
+  if (code.startsWith("GG")) return "generalGame";
+  if (code.startsWith("RSC")) return "skills";
+  if (code.startsWith("R")) return "robot";
+  if (code.startsWith("T")) return "tournament";
+  if (code.startsWith("VUG") || code.startsWith("VUR") || code.startsWith("VUT") || code.startsWith("VURS")) return "vexu";
+  if (code.startsWith("S")) return "safety";
+  if (code.startsWith("G")) return "general";
+  return "manual";
+}
+
+function fallbackRuleTitle(code) {
+  const family = ruleFamily(code);
+  const labels = {
+    scoring: "กฎการคิดคะแนน",
+    specific: "กฎเฉพาะของเกม",
+    safety: "กฎความปลอดภัย",
+    general: "กฎทั่วไป",
+    generalGame: "กฎทั่วไปในสนาม",
+    skills: "กฎ Robot Skills",
+    robot: "กฎหุ่นยนต์",
+    tournament: "กฎทัวร์นาเมนต์",
+    vexu: "กฎ VEX U / VURC",
+    manual: "หัวข้ออ้างอิง",
+  };
+  return `${labels[family] || "กฎ"} ${code}`;
+}
+
+function ruleExplanation(code) {
+  const known = knownRuleDetails.get(code);
+  if (known) {
+    return {
+      code,
+      title: known.title,
+      detail: known.text,
+      checklist: "อ่านเงื่อนไขย่อยของกฎนี้ใน PDF ต้นฉบับก่อนใช้ตัดสิน เพราะบางข้อมี exception และ violation notes เพิ่มเติม",
+      tone: known.tone || "",
+    };
+  }
+
+  const title = ruleTitleLookup.get(code) || fallbackRuleTitle(code);
+  const family = ruleFamily(code);
+  const templates = {
+    scoring: [
+      "กฎนี้อยู่ในหมวดการคิดคะแนน จึงควรใช้ตอนตรวจว่าสถานะสุดท้ายของวัตถุหรือ Robot เข้าเกณฑ์คะแนนหรือไม่",
+      "เวลาอ่าน ให้แยกก่อนว่าเป็นคะแนนของ Pin, Toggle, Midfield หรือ Autonomous เพราะแต่ละสถานะมีเวลาประเมินและเงื่อนไขต่างกัน",
+      "เช็กจากตำแหน่งจริงหลังแมตช์ ไม่ใช่จากความตั้งใจของทีม",
+    ],
+    specific: [
+      "กฎนี้เป็นข้อจำกัดเฉพาะของเกม Override และมักส่งผลโดยตรงต่อ strategy ในสนาม",
+      "ทีมควรแยกให้ชัดว่าอะไรทำได้ตอน Autonomous, Driver Control และ Endgame เพราะบางกฎเปลี่ยนตามช่วงเวลา",
+      "ถ้าแผนเล่นต้องเข้าใกล้คู่แข่งหรือ Goal ของอีกฝ่าย ให้ตรวจ violation notes เพิ่มก่อนซ้อมจริง",
+    ],
+    safety: [
+      "กฎนี้เป็นฐานด้านความปลอดภัย กรรมการสามารถใช้ดุลยพินิจได้เมื่อ Robot หรือพฤติกรรมทีมสร้างความเสี่ยง",
+      "ใช้ตรวจทั้งตัว Robot, วิธีขับ, การทำงานของกลไก และพฤติกรรมของ Drive Team Members รอบสนาม",
+      "ถ้าไม่แน่ใจว่าปลอดภัยพอ ให้แก้ก่อนลงสนาม ไม่ใช่รอให้กรรมการตัดสินระหว่างแมตช์",
+    ],
+    general: [
+      "กฎนี้กำหนดมาตรฐานพฤติกรรมและบทบาทของทีม มากกว่าจะเป็นกลไกทำคะแนนโดยตรง",
+      "ใช้ตีความร่วมกับ spirit of the competition โดยเฉพาะบทบาทนักเรียน ผู้ใหญ่ และการใช้สามัญสำนึก",
+      "ทีมควรเตรียมอธิบายเหตุผลการออกแบบ/โค้ด/กลยุทธ์ด้วยภาษาของนักเรียนเอง",
+    ],
+    generalGame: [
+      "กฎนี้เป็นกฎทั่วไปในสนาม ใช้กับการเล่น Head-to-Head และมักมีผลต่อการตัดสินระหว่าง Robot ปะทะกัน",
+      "อ่านร่วมกับ context ของแมตช์ เพราะหลายกรณีขึ้นกับว่าใครเป็นฝ่ายรุก ใครเป็นฝ่ายรับ และเหตุการณ์เกิดโดยเจตนาหรือไม่",
+      "ซ้อม drive team ให้รู้ขั้นตอน appeal, timeout, replay และการสื่อสารกับ Head Referee อย่างสุภาพ",
+    ],
+    skills: [
+      "กฎนี้ใช้กับ Robot Skills ซึ่งไม่เหมือน Head-to-Head ทั้งด้าน field setup, schedule และวิธีบันทึกผล",
+      "ทีมควรแยกแผน Skills ออกจากแผน match play เพราะวัตถุเริ่มต้นและเป้าหมายการแข่งขันต่างกัน",
+      "ก่อนเริ่ม Skills ให้ยืนยัน field setup, stop time และวิธีควบคุมสนามกับ Scorekeeper Referee",
+    ],
+    robot: [
+      "กฎนี้ใช้ตอนออกแบบ สร้าง และตรวจ Robot ก่อนแข่ง เป็น hard limit ในหลายกรณี",
+      "ควรตรวจตั้งแต่ CAD หรือ prototype เพราะการแก้ตอน inspection มักเสียเวลาและอาจทำให้พลาดแมตช์",
+      "เตรียมหลักฐานให้ inspector ดูได้ เช่น จำนวนมอเตอร์ ขนาด กลไกที่ขยาย วัสดุ custom และตำแหน่งป้ายทีม",
+    ],
+    tournament: [
+      "กฎนี้เกี่ยวกับการจัดอีเวนต์ การตัดสิน ตารางแข่ง ranking หรือขั้นตอน tournament",
+      "ทีมควรรู้สิทธิ์และหน้าที่ของ Drive Team Members โดยเฉพาะการถาม ruling, การ appeal และการเข้าร่วม Alliance Selection",
+      "เรื่อง gameplay ให้ Head Referee เป็นผู้ตัดสินสุดท้าย ส่วนเรื่องการจัดงานให้ Event Partner มีอำนาจในขอบเขตของตน",
+    ],
+    vexu: [
+      "กฎนี้เป็นการปรับสำหรับ VEX U / VURC จึงไม่ควรนำไปใช้กับ V5RC ปกติถ้า manual ไม่ได้บอกชัด",
+      "ตรวจให้ดีว่าข้อใดแก้กฎเกม ข้อใดแก้กฎ Robot และข้อใดแก้รูปแบบ tournament",
+      "ทีม VEX U ควรอ่านกฎ V5RC พื้นฐานก่อน แล้วค่อยใช้หมวดนี้เป็น override สำหรับระดับมหาวิทยาลัย",
+    ],
+    manual: [
+      "รายการนี้เป็นเนื้อหาอ้างอิงในคู่มือ ใช้เพื่อเชื่อมตำแหน่งอ่านกับกฎหลัก",
+      "อ่านร่วมกับหัวข้อก่อนหน้าและถัดไปเพื่อไม่ตัดบริบทของกฎออกจากกัน",
+      "ใช้ PDF ต้นฉบับเป็นแหล่งตัดสินเมื่อมีข้อสงสัย",
+    ],
+  };
+  const [detail, reading, checklist] = templates[family] || templates.manual;
+  return {
+    code,
+    title,
+    detail: `${title}: ${detail} ${reading}`,
+    checklist,
+    tone: ["danger", "warning"].includes(family) ? family : "",
+  };
+}
+
+function pageRuleDetails(page) {
+  return (page.ruleCodes || []).slice(0, 8).map((code) => ruleExplanation(code));
 }
 
 function renderRuleLists() {
@@ -186,9 +298,24 @@ function renderPageTranslations(query = "") {
             <p class="translation-section">${pageSectionText[page.sectionKey]?.[0] || "Game Manual"}</p>
             <h3>${pageTitle(page)}</h3>
             <p>${pageSummary(page)}</p>
+            ${page.ruleCodes.length ? `<div class="code-row">${page.ruleCodes.map((code) => `<span>${code}</span>`).join("")}</div>` : ""}
             ${
               page.ruleCodes.length
-                ? `<div class="code-row">${page.ruleCodes.map((code) => `<span>${code}</span>`).join("")}</div>`
+                ? `<div class="page-rule-digest">
+                    <h4>คำอธิบายกฎในหน้านี้</h4>
+                    ${pageRuleDetails(page)
+                      .map(
+                        (rule) => `
+                          <div class="digest-rule ${rule.tone}">
+                            <strong>${rule.code} - ${rule.title}</strong>
+                            <p>${rule.detail}</p>
+                            <em>${rule.checklist}</em>
+                          </div>
+                        `,
+                      )
+                      .join("")}
+                    ${page.ruleCodes.length > 8 ? `<p class="more-rules">หน้านี้ยังมีรหัสกฎเพิ่มเติม: ${page.ruleCodes.slice(8).join(", ")}</p>` : ""}
+                  </div>`
                 : ""
             }
             <ul>${pageStudyNotes(page).map((note) => `<li>${note}</li>`).join("")}</ul>
