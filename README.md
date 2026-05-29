@@ -1,6 +1,6 @@
 # VEX V5 Override Rules TH
 
-เว็บอธิบายกฎ VEX V5 Robotics Competition Override ภาษาไทยแบบย่อ อ้างอิงจาก `v5rc-override-0.1.2.pdf` รุ่น 0.1.2 ที่ผู้ใช้ให้มา
+เว็บอธิบายกฎ VEX V5 Robotics Competition Override ภาษาไทยแบบย่อ อ้างอิงจาก `v5rc-override-0.1.2.pdf` รุ่น 0.1.2 ที่ผู้ใช้ให้มา ออกแบบเป็นหน้าเอกสารคล้ายคู่มือ Game Manual เพื่ออ่านบนเว็บ
 
 หน้าเว็บถูกเก็บไว้ในโฟลเดอร์ `site/` และ deploy ด้วย GitHub Actions ไปยัง GitHub Pages
 

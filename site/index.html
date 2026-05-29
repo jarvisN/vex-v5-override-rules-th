@@ -5,204 +5,326 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="คู่มืออธิบายกฎ VEX V5 Robotics Competition Override ภาษาไทยแบบย่อ พร้อมค้นหากฎและคำนวณคะแนนเบื้องต้น"
+      content="คู่มือภาษาไทยแบบอ่านง่ายสำหรับ VEX V5 Robotics Competition Override ออกแบบเป็นหน้าเอกสารคล้าย Game Manual"
     />
-    <title>VEX V5 Override Rules TH</title>
+    <title>VEX V5RC Override Thai Manual</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <header class="topbar">
-      <div>
-        <p class="eyebrow">VEX V5 Robotics Competition</p>
-        <h1>Override Rules TH</h1>
-      </div>
-      <div class="source-note">
-        <span>อ้างอิง PDF Game Manual v0.1.2</span>
-        <strong>Released May 14, 2026</strong>
-      </div>
-    </header>
-
-    <main class="layout">
-      <aside class="sidebar" aria-label="หมวดกฎ">
-        <button class="nav-button active" data-section="overview">ภาพรวม</button>
-        <button class="nav-button" data-section="field">สนามและวัตถุ</button>
-        <button class="nav-button" data-section="scoring">คะแนน</button>
-        <button class="nav-button" data-section="autonomous">Autonomous</button>
-        <button class="nav-button" data-section="gameplay">กฎระหว่างแข่ง</button>
-        <button class="nav-button" data-section="robot">กฎหุ่นยนต์</button>
-        <button class="nav-button" data-section="skills">Robot Skills</button>
-        <button class="nav-button" data-section="checklist">เช็กลิสต์</button>
+    <div class="site-shell">
+      <aside class="toc-rail" aria-label="สารบัญ">
+        <a href="#cover" class="rail-title">V5RC Override TH</a>
+        <nav>
+          <a href="#toc">สารบัญ</a>
+          <a href="#quick-reference">Quick Reference</a>
+          <a href="#section-game">Section 2 - The Game</a>
+          <a href="#scoring">Scoring</a>
+          <a href="#specific-rules">Specific Game Rules</a>
+          <a href="#safety-general">Safety / General</a>
+          <a href="#robot">Section 4 - The Robot</a>
+          <a href="#skills">Robot Skills</a>
+          <a href="#search">Rule Finder</a>
+        </nav>
       </aside>
 
-      <section class="content">
-        <div class="notice" role="note">
-          <strong>หมายเหตุ:</strong>
-          เว็บนี้เป็นคำอธิบาย/แปลสรุปภาษาไทยเพื่อช่วยเรียนรู้ ไม่ใช่เอกสารตัดสินอย่างเป็นทางการ
-          หากมีข้อขัดแย้ง ให้ยึด PDF ภาษาอังกฤษฉบับล่าสุดและ Q&amp;A ทางการของ VEX เป็นหลัก
-        </div>
-
-        <section id="overview" class="panel active" aria-labelledby="overview-title">
-          <div class="section-heading">
-            <p class="eyebrow">เกมฤดูกาล 2026-2027</p>
-            <h2 id="overview-title">VEX V5RC Override คืออะไร</h2>
+      <main class="manual" id="cover">
+        <section class="page cover-page" aria-labelledby="cover-title">
+          <div class="cover-band">
+            <p>2026 - 2027 Game Manual Companion</p>
+            <strong>Version 0.1.2 summary</strong>
           </div>
-
-          <div class="overview-grid">
-            <article class="metric red">
-              <span>ทีมต่อแมตช์</span>
-              <strong>2v2</strong>
-              <p>แดง 2 ทีม พบ น้ำเงิน 2 ทีม</p>
-            </article>
-            <article class="metric blue">
-              <span>ช่วง Autonomous</span>
-              <strong>0:15</strong>
-              <p>หุ่นยนต์ทำงานเอง ไม่มีคนบังคับ</p>
-            </article>
-            <article class="metric green">
-              <span>ช่วง Driver Control</span>
-              <strong>1:45</strong>
-              <p>คนขับควบคุมหุ่นยนต์</p>
-            </article>
-            <article class="metric yellow">
-              <span>สนาม</span>
-              <strong>12' x 12'</strong>
-              <p>มี Goals, Toggles, Pins, Cups และ Midfield</p>
-            </article>
+          <div class="cover-body">
+            <p class="series">VEX V5 Robotics Competition</p>
+            <h1 id="cover-title">Override</h1>
+            <p class="subtitle">Thai Rules Guide</p>
+            <div class="cover-rule">
+              <span>แปลและเรียบเรียงเป็นภาษาไทย</span>
+              <strong>สำหรับอ่านทำความเข้าใจกฎก่อนแข่ง</strong>
+            </div>
           </div>
-
-          <div class="split">
-            <article class="summary-block">
-              <h3>เป้าหมายหลัก</h3>
-              <p>
-                ทำคะแนนให้มากกว่าฝ่ายตรงข้ามด้วยการวาง Pins และ Cups ลงบน Goals,
-                ตั้ง Toggles เป็นสีของ Alliance, และจบแมตช์โดยมีหุ่นยนต์อยู่ใน Midfield
-                ซึ่งเป็นพื้นที่แย่งชิงช่วงท้ายเกม
-              </p>
-            </article>
-            <article class="summary-block">
-              <h3>แนวคิดของเกม</h3>
-              <p>
-                Override เน้นการสร้าง stack และการประสานงานกับคู่ Alliance มากกว่าการเล่นป้องกันอย่างเดียว
-                เกมเปิดโอกาสให้เกิด point swing จาก Toggles และ yellow Pins แต่ยังต้องรักษาความปลอดภัยและ spirit of competition
-              </p>
-            </article>
-          </div>
+          <footer class="page-footer">
+            <span>อ้างอิงจาก PDF Game Manual v0.1.2 - Released May 14, 2026</span>
+            <span>ไม่ใช่เอกสารทางการของ VEX</span>
+          </footer>
         </section>
 
-        <section id="field" class="panel" aria-labelledby="field-title">
-          <div class="section-heading">
-            <p class="eyebrow">Field Overview</p>
-            <h2 id="field-title">สนามและวัตถุสำคัญ</h2>
+        <section class="page preface-page" aria-labelledby="important-title">
+          <header class="page-header">
+            <span>VEX V5RC Override - Thai Manual Companion</span>
+            <span>Important Notice</span>
+          </header>
+          <h2 id="important-title">ข้อควรรู้ก่อนใช้เว็บนี้</h2>
+          <p class="lead">
+            เว็บนี้ทำหน้าตาให้ใกล้ “คู่มือกติกา” เพื่ออ่านง่ายบนเว็บ แต่เนื้อหาเป็นการสรุป/แปลอธิบายภาษาไทย
+            ไม่ใช่การเผยแพร่ PDF ทั้งฉบับ และไม่ใช่เอกสารตัดสินอย่างเป็นทางการ
+          </p>
+          <div class="callout official">
+            <strong>ลำดับความน่าเชื่อถือของข้อมูล</strong>
+            <p>
+              หากมีความต่างระหว่างเว็บนี้กับเอกสารอื่น ให้ยึด PDF ภาษาอังกฤษฉบับล่าสุดของ Game Manual
+              และคำตอบจากระบบ VEX Q&amp;A ทางการเป็นหลัก
+            </p>
           </div>
+          <div class="two-col">
+            <article>
+              <h3>เว็บนี้เหมาะกับ</h3>
+              <ul>
+                <li>นักเรียนที่อยากอ่านกฎสำคัญเป็นภาษาไทย</li>
+                <li>โค้ชที่ต้องการอธิบายภาพรวมก่อนซ้อม</li>
+                <li>ทีมที่อยากเช็กกฎหุ่นยนต์และกฎสนามแบบเร็ว</li>
+              </ul>
+            </article>
+            <article>
+              <h3>เว็บนี้ไม่ใช่</h3>
+              <ul>
+                <li>Game Manual ฉบับเต็ม</li>
+                <li>คำตัดสินแทน Head Referee</li>
+                <li>เอกสาร Q&amp;A หรือ referee training ทางการ</li>
+              </ul>
+            </article>
+          </div>
+          <footer class="page-footer">
+            <span>Preface</span>
+            <span>i</span>
+          </footer>
+        </section>
 
-          <div class="field-visual" aria-label="แผนภาพสนาม VEX Override แบบย่อ">
-            <div class="field-side red-zone">Red</div>
-            <div class="field-side blue-zone">Blue</div>
-            <div class="midfield">Midfield</div>
+        <section class="page toc-page" id="toc" aria-labelledby="toc-title">
+          <header class="page-header">
+            <span>VEX V5RC Override - Thai Manual Companion</span>
+            <span>Table of Contents</span>
+          </header>
+          <h2 id="toc-title">สารบัญ</h2>
+          <ol class="contents-list">
+            <li><a href="#quick-reference"><span>Quick Reference Guide</span><b>vi</b></a></li>
+            <li><a href="#section-game"><span>Section 2 - The Game</span><b>7</b></a></li>
+            <li><a href="#scoring"><span>Scoring</span><b>14</b></a></li>
+            <li><a href="#specific-rules"><span>Specific Game Rules</span><b>19</b></a></li>
+            <li><a href="#safety-general"><span>Safety Rules / General Rules</span><b>25</b></a></li>
+            <li><a href="#robot"><span>Section 4 - The Robot</span><b>46</b></a></li>
+            <li><a href="#skills"><span>Section 3 - Robot Skills</span><b>42</b></a></li>
+            <li><a href="#search"><span>Rule Finder + Score Calculator</span><b>Tool</b></a></li>
+          </ol>
+          <footer class="page-footer">
+            <span>Table of Contents</span>
+            <span>iii</span>
+          </footer>
+        </section>
+
+        <section class="page reference-page" id="quick-reference" aria-labelledby="quick-title">
+          <header class="page-header">
+            <span>VEX V5RC Override - Thai Manual Companion</span>
+            <span>Quick Reference Guide</span>
+          </header>
+          <h2 id="quick-title">Quick Reference Guide</h2>
+          <div class="reference-grid">
+            <article class="ref-card">
+              <span class="rule-tag">SC</span>
+              <h3>คะแนนหลัก</h3>
+              <p>Autonomous Bonus 12, Alliance-colored Pin 5, Owned yellow Pin 10, Robot in Midfield 8</p>
+            </article>
+            <article class="ref-card">
+              <span class="rule-tag">SG1</span>
+              <h3>เริ่มแมตช์</h3>
+              <p>หุ่นยนต์เริ่มในขนาด 18 x 18 x 18 นิ้ว และแตะ field tile กับ perimeter ฝั่ง Alliance ของตน</p>
+            </article>
+            <article class="ref-card warning">
+              <span class="rule-tag">SG6</span>
+              <h3>Possession</h3>
+              <p>ครอบครองได้สูงสุด 1 Pin และ 1 Cup พร้อมกัน การ plow หลายวัตถุยังทำได้ถ้าไม่ถือครอง</p>
+            </article>
+            <article class="ref-card danger">
+              <span class="rule-tag">SG9</span>
+              <h3>Alliance Goals</h3>
+              <p>ห้ามยุ่งกับ Goal สีของฝ่ายตรงข้าม ไม่ว่าจะวางหรือเอา Scoring Object ออก</p>
+            </article>
+            <article class="ref-card warning">
+              <span class="rule-tag">R10</span>
+              <h3>Motor Limit</h3>
+              <p>กำลังมอเตอร์รวมทั้งหุ่นยนต์ไม่เกิน 88W และ Subsystem 1 ไม่เกิน 55W</p>
+            </article>
+            <article class="ref-card danger">
+              <span class="rule-tag">S1</span>
+              <h3>Safety</h3>
+              <p>พฤติกรรมหรือกลไกที่ไม่ปลอดภัยอาจถูก Disable, Disqualify และต้องตรวจหุ่นยนต์ใหม่</p>
+            </article>
+          </div>
+          <footer class="page-footer">
+            <span>Quick Reference Guide</span>
+            <span>vi</span>
+          </footer>
+        </section>
+
+        <section class="page" id="section-game" aria-labelledby="game-title">
+          <header class="page-header">
+            <span>Section 2 - The Game</span>
+            <span>Override: A Primer</span>
+          </header>
+          <h2 id="game-title">VEX V5RC Override: ภาพรวมเกม</h2>
+          <p class="lead">
+            Override เล่นบนสนาม 12 x 12 ฟุต แบบ Head-to-Head โดย Alliance แดงและน้ำเงินฝ่ายละ 2 ทีม
+            แข่งกันในแมตช์ที่มี Autonomous 15 วินาที และ Driver Controlled 1 นาที 45 วินาที
+          </p>
+          <div class="diagram-field" aria-label="แผนผังสนามแบบย่อ">
+            <div class="zone red">RED ALLIANCE</div>
+            <div class="zone blue">BLUE ALLIANCE</div>
+            <div class="auto-line left"></div>
+            <div class="auto-line right"></div>
+            <div class="midfield-box">MIDFIELD</div>
             <span class="goal g1">G</span>
             <span class="goal g2">G</span>
             <span class="goal g3">G</span>
             <span class="goal g4">G</span>
-            <span class="goal g5 tall">Tall</span>
+            <span class="goal g5">TALL GOAL</span>
             <span class="toggle t1">T</span>
             <span class="toggle t2">T</span>
             <span class="toggle t3">T</span>
             <span class="toggle t4">T</span>
-            <span class="loader l1">Loader</span>
-            <span class="loader l2">Loader</span>
-            <span class="loader l3">Loader</span>
-            <span class="loader l4">Loader</span>
           </div>
-
-          <div class="rule-grid" id="fieldCards"></div>
+          <div class="manual-table">
+            <div><strong>Object of the Game</strong><span>ทำคะแนนมากกว่าฝ่ายตรงข้าม</span></div>
+            <div><strong>Scoring Actions</strong><span>วาง Pins/Cups, ตั้ง Toggles, จบใน Midfield</span></div>
+            <div><strong>Strategy Theme</strong><span>การ stack, การสื่อสาร, การวางจังหวะ และ Endgame positioning</span></div>
+          </div>
+          <footer class="page-footer">
+            <span>Section 2 - The Game</span>
+            <span>7</span>
+          </footer>
         </section>
 
-        <section id="scoring" class="panel" aria-labelledby="scoring-title">
-          <div class="section-heading">
-            <p class="eyebrow">Scoring</p>
-            <h2 id="scoring-title">คะแนนและตัวคำนวณ</h2>
-          </div>
+        <section class="page" id="scoring" aria-labelledby="scoring-title">
+          <header class="page-header">
+            <span>Section 2 - The Game</span>
+            <span>Scoring</span>
+          </header>
+          <h2 id="scoring-title">Scoring</h2>
+          <table class="score-table">
+            <thead>
+              <tr>
+                <th>รายการ</th>
+                <th>คะแนน</th>
+                <th>คำอธิบายไทย</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Autonomous Bonus</td>
+                <td>12</td>
+                <td>ฝ่ายที่มีคะแนนมากกว่าหลัง Autonomous ได้ bonus ถ้าเสมอได้ฝ่ายละ 6</td>
+              </tr>
+              <tr>
+                <td>Placed Alliance-colored Pin</td>
+                <td>5</td>
+                <td>Pin สีแดงหรือสีน้ำเงินที่ Placed แล้วนับให้ Alliance สีเดียวกัน</td>
+              </tr>
+              <tr>
+                <td>Owned yellow Pin</td>
+                <td>10</td>
+                <td>Yellow Pin จะนับให้ฝ่ายที่ Own ผ่าน Toggle หรือจำนวน Robot ใน Midfield</td>
+              </tr>
+              <tr>
+                <td>Robot in Midfield</td>
+                <td>8</td>
+                <td>หุ่นยนต์ที่มีส่วนใดส่วนหนึ่งอยู่ใน projection แนวตั้งของ Midfield ตอนจบแมตช์</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="rule-list" data-rule-list="scoring"></div>
+          <footer class="page-footer">
+            <span>Scoring</span>
+            <span>14</span>
+          </footer>
+        </section>
 
-          <div class="score-layout">
-            <div class="rule-grid" id="scoringCards"></div>
-            <form class="calculator" id="scoreCalculator">
-              <h3>คำนวณคะแนนฝั่งเดียว</h3>
-              <label>
-                Alliance-colored Pins ที่ Placed
-                <input type="number" min="0" max="63" value="0" name="alliancePins" />
-              </label>
-              <label>
-                Yellow Pins ที่ Owned
-                <input type="number" min="0" max="63" value="0" name="yellowPins" />
-              </label>
-              <label>
-                Robots ใน Midfield
-                <input type="number" min="0" max="2" value="0" name="midfieldRobots" />
-              </label>
-              <label class="checkbox-row">
-                <input type="checkbox" name="autoBonus" />
-                ได้ Autonomous Bonus
-              </label>
+        <section class="page" id="specific-rules" aria-labelledby="specific-title">
+          <header class="page-header">
+            <span>Section 2 - The Game</span>
+            <span>Specific Game Rules</span>
+          </header>
+          <h2 id="specific-title">Specific Game Rules</h2>
+          <div class="rule-list" data-rule-list="specific"></div>
+          <footer class="page-footer">
+            <span>Specific Game Rules</span>
+            <span>19</span>
+          </footer>
+        </section>
+
+        <section class="page" id="safety-general" aria-labelledby="safety-title">
+          <header class="page-header">
+            <span>Section 2 - The Game</span>
+            <span>Safety and General Rules</span>
+          </header>
+          <h2 id="safety-title">Safety Rules / General Rules</h2>
+          <div class="rule-list" data-rule-list="safety"></div>
+          <div class="rule-list" data-rule-list="general"></div>
+          <footer class="page-footer">
+            <span>Safety Rules / General Rules</span>
+            <span>25</span>
+          </footer>
+        </section>
+
+        <section class="page" id="robot" aria-labelledby="robot-title">
+          <header class="page-header">
+            <span>Section 4 - The Robot</span>
+            <span>Inspection Rules</span>
+          </header>
+          <h2 id="robot-title">Robot Inspection Rules</h2>
+          <p class="lead">
+            กฎหุ่นยนต์เป็นส่วนที่ควรตรวจตั้งแต่ตอนออกแบบ เพราะหลายข้อเป็น hard limits เช่น ขนาดเริ่มต้น
+            จำนวนมอเตอร์ วัสดุ และชิ้นส่วนที่อนุญาต
+          </p>
+          <div class="rule-list" data-rule-list="robot"></div>
+          <footer class="page-footer">
+            <span>Section 4 - The Robot</span>
+            <span>46</span>
+          </footer>
+        </section>
+
+        <section class="page" id="skills" aria-labelledby="skills-title">
+          <header class="page-header">
+            <span>Section 3 - Robot Skills</span>
+            <span>Challenge Rules</span>
+          </header>
+          <h2 id="skills-title">Robot Skills Challenge</h2>
+          <p class="lead">
+            Robot Skills ใช้กฎมาตรฐานเป็นหลัก แต่ field setup และรูปแบบการเล่นต่างจาก Head-to-Head
+            ทีมควรอ่าน RSC rules แยกก่อนลงสนาม Skills
+          </p>
+          <div class="rule-list" data-rule-list="skills"></div>
+          <footer class="page-footer">
+            <span>Robot Skills Challenge Rules</span>
+            <span>42</span>
+          </footer>
+        </section>
+
+        <section class="page tool-page" id="search" aria-labelledby="search-title">
+          <header class="page-header">
+            <span>Appendix - Study Tools</span>
+            <span>Rule Finder</span>
+          </header>
+          <h2 id="search-title">ค้นหากฎและคำนวณคะแนน</h2>
+          <div class="tool-grid">
+            <form class="score-calculator" id="scoreCalculator">
+              <h3>Score Calculator</h3>
+              <label>Alliance-colored Pins <input type="number" min="0" max="63" value="0" name="alliancePins" /></label>
+              <label>Owned yellow Pins <input type="number" min="0" max="63" value="0" name="yellowPins" /></label>
+              <label>Robots in Midfield <input type="number" min="0" max="2" value="0" name="midfieldRobots" /></label>
+              <label class="check-line"><input type="checkbox" name="autoBonus" /> Autonomous Bonus</label>
               <output id="scoreTotal">0 คะแนน</output>
             </form>
+            <div class="finder">
+              <h3>Rule Finder</h3>
+              <input id="searchBox" type="search" placeholder="ค้นหา เช่น SG6, motor, Toggle, Midfield, safety" />
+              <div id="searchResults" class="search-results"></div>
+            </div>
           </div>
+          <footer class="page-footer">
+            <span>Study Tools</span>
+            <span>Tool</span>
+          </footer>
         </section>
-
-        <section id="autonomous" class="panel" aria-labelledby="autonomous-title">
-          <div class="section-heading">
-            <p class="eyebrow">Autonomous Period</p>
-            <h2 id="autonomous-title">กฎสำคัญช่วง 15 วินาทีแรก</h2>
-          </div>
-          <div class="rule-grid" id="autonomousCards"></div>
-        </section>
-
-        <section id="gameplay" class="panel" aria-labelledby="gameplay-title">
-          <div class="section-heading">
-            <p class="eyebrow">Specific + General Game Rules</p>
-            <h2 id="gameplay-title">กฎระหว่างแข่งที่ควรรู้</h2>
-          </div>
-          <div class="rule-grid" id="gameplayCards"></div>
-        </section>
-
-        <section id="robot" class="panel" aria-labelledby="robot-title">
-          <div class="section-heading">
-            <p class="eyebrow">Robot Rules</p>
-            <h2 id="robot-title">กฎตรวจหุ่นยนต์</h2>
-          </div>
-          <div class="rule-grid" id="robotCards"></div>
-        </section>
-
-        <section id="skills" class="panel" aria-labelledby="skills-title">
-          <div class="section-heading">
-            <p class="eyebrow">Robot Skills Challenge</p>
-            <h2 id="skills-title">Robot Skills แบบย่อ</h2>
-          </div>
-          <div class="rule-grid" id="skillsCards"></div>
-        </section>
-
-        <section id="checklist" class="panel" aria-labelledby="checklist-title">
-          <div class="section-heading">
-            <p class="eyebrow">Quick Check</p>
-            <h2 id="checklist-title">เช็กลิสต์ก่อนลงสนาม</h2>
-          </div>
-          <div class="checklist" id="checklistItems"></div>
-        </section>
-
-        <section class="search-panel" aria-labelledby="search-title">
-          <div class="section-heading compact">
-            <p class="eyebrow">Rule Finder</p>
-            <h2 id="search-title">ค้นหากฎ</h2>
-          </div>
-          <input
-            id="searchBox"
-            class="search-box"
-            type="search"
-            placeholder="ค้นหา เช่น SG6, motor, Toggle, Midfield, safety"
-          />
-          <div class="search-results" id="searchResults"></div>
-        </section>
-      </section>
-    </main>
+      </main>
+    </div>
 
     <script src="./app.js"></script>
   </body>
