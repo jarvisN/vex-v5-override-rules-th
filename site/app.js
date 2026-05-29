@@ -266,16 +266,18 @@ function searchRules(query) {
 function renderPageTranslations(query = "") {
   const container = document.getElementById("pageTranslationList");
   const count = document.getElementById("pageCount");
-  if (!container || !window.PAGE_TRANSLATIONS) return;
+  const translationPages = window.FULL_TRANSLATION_PAGES || window.PAGE_TRANSLATIONS;
+  if (!container || !translationPages) return;
 
   const normalized = query.trim().toLowerCase();
   const pages = normalized
-    ? window.PAGE_TRANSLATIONS.filter((page) =>
+    ? translationPages.filter((page) =>
         [
           page.page,
           pageSectionText[page.sectionKey]?.[0],
           pageTitle(page),
           pageSummary(page),
+          page.thai || "",
           ...(page.ruleCodes || []),
           ...pageStudyNotes(page),
         ]
@@ -283,9 +285,9 @@ function renderPageTranslations(query = "") {
           .toLowerCase()
           .includes(normalized),
       )
-    : window.PAGE_TRANSLATIONS;
+    : translationPages;
 
-  count.textContent = `${pages.length} / ${window.PAGE_TRANSLATIONS.length} หน้า`;
+  count.textContent = `${pages.length} / ${translationPages.length} หน้า`;
   container.innerHTML = pages
     .map(
       (page) => `
@@ -297,12 +299,20 @@ function renderPageTranslations(query = "") {
           <div class="translation-page-body">
             <p class="translation-section">${pageSectionText[page.sectionKey]?.[0] || "Game Manual"}</p>
             <h3>${pageTitle(page)}</h3>
-            <p>${pageSummary(page)}</p>
+            ${
+              page.thai
+                ? `<div class="full-translation-text">${page.thai
+                    .split("\n")
+                    .filter((line) => line.trim())
+                    .map((line) => `<p>${line}</p>`)
+                    .join("")}</div>`
+                : `<p>${pageSummary(page)}</p>`
+            }
             ${page.ruleCodes.length ? `<div class="code-row">${page.ruleCodes.map((code) => `<span>${code}</span>`).join("")}</div>` : ""}
             ${
               page.ruleCodes.length
-                ? `<div class="page-rule-digest">
-                    <h4>คำอธิบายกฎในหน้านี้</h4>
+                ? `<details class="page-rule-digest">
+                    <summary>รหัสกฎในหน้านี้</summary>
                     ${pageRuleDetails(page)
                       .map(
                         (rule) => `
@@ -315,10 +325,9 @@ function renderPageTranslations(query = "") {
                       )
                       .join("")}
                     ${page.ruleCodes.length > 8 ? `<p class="more-rules">หน้านี้ยังมีรหัสกฎเพิ่มเติม: ${page.ruleCodes.slice(8).join(", ")}</p>` : ""}
-                  </div>`
+                  </details>`
                 : ""
             }
-            <ul>${pageStudyNotes(page).map((note) => `<li>${note}</li>`).join("")}</ul>
           </div>
         </article>
       `,
@@ -334,3 +343,9 @@ searchRules("");
 document.getElementById("scoreCalculator").addEventListener("input", updateScore);
 document.getElementById("searchBox").addEventListener("input", (event) => searchRules(event.target.value));
 document.getElementById("pageSearch").addEventListener("input", (event) => renderPageTranslations(event.target.value));
+
+if (!window.location.hash) {
+  window.requestAnimationFrame(() => {
+    document.getElementById("page-by-page").scrollIntoView({ block: "start" });
+  });
+}
