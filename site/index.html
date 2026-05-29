@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="คู่มืออธิบายกฎ VEX V5 Robotics Competition Override ภาษาไทยแบบย่อ พร้อมค้นหากฎและคำนวณคะแนนเบื้องต้น"
+    />
+    <title>VEX V5 Override Rules TH</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">VEX V5 Robotics Competition</p>
+        <h1>Override Rules TH</h1>
+      </div>
+      <div class="source-note">
+        <span>อ้างอิง PDF Game Manual v0.1.2</span>
+        <strong>Released May 14, 2026</strong>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar" aria-label="หมวดกฎ">
+        <button class="nav-button active" data-section="overview">ภาพรวม</button>
+        <button class="nav-button" data-section="field">สนามและวัตถุ</button>
+        <button class="nav-button" data-section="scoring">คะแนน</button>
+        <button class="nav-button" data-section="autonomous">Autonomous</button>
+        <button class="nav-button" data-section="gameplay">กฎระหว่างแข่ง</button>
+        <button class="nav-button" data-section="robot">กฎหุ่นยนต์</button>
+        <button class="nav-button" data-section="skills">Robot Skills</button>
+        <button class="nav-button" data-section="checklist">เช็กลิสต์</button>
+      </aside>
+
+      <section class="content">
+        <div class="notice" role="note">
+          <strong>หมายเหตุ:</strong>
+          เว็บนี้เป็นคำอธิบาย/แปลสรุปภาษาไทยเพื่อช่วยเรียนรู้ ไม่ใช่เอกสารตัดสินอย่างเป็นทางการ
+          หากมีข้อขัดแย้ง ให้ยึด PDF ภาษาอังกฤษฉบับล่าสุดและ Q&amp;A ทางการของ VEX เป็นหลัก
+        </div>
+
+        <section id="overview" class="panel active" aria-labelledby="overview-title">
+          <div class="section-heading">
+            <p class="eyebrow">เกมฤดูกาล 2026-2027</p>
+            <h2 id="overview-title">VEX V5RC Override คืออะไร</h2>
+          </div>
+
+          <div class="overview-grid">
+            <article class="metric red">
+              <span>ทีมต่อแมตช์</span>
+              <strong>2v2</strong>
+              <p>แดง 2 ทีม พบ น้ำเงิน 2 ทีม</p>
+            </article>
+            <article class="metric blue">
+              <span>ช่วง Autonomous</span>
+              <strong>0:15</strong>
+              <p>หุ่นยนต์ทำงานเอง ไม่มีคนบังคับ</p>
+            </article>
+            <article class="metric green">
+              <span>ช่วง Driver Control</span>
+              <strong>1:45</strong>
+              <p>คนขับควบคุมหุ่นยนต์</p>
+            </article>
+            <article class="metric yellow">
+              <span>สนาม</span>
+              <strong>12' x 12'</strong>
+              <p>มี Goals, Toggles, Pins, Cups และ Midfield</p>
+            </article>
+          </div>
+
+          <div class="split">
+            <article class="summary-block">
+              <h3>เป้าหมายหลัก</h3>
+              <p>
+                ทำคะแนนให้มากกว่าฝ่ายตรงข้ามด้วยการวาง Pins และ Cups ลงบน Goals,
+                ตั้ง Toggles เป็นสีของ Alliance, และจบแมตช์โดยมีหุ่นยนต์อยู่ใน Midfield
+                ซึ่งเป็นพื้นที่แย่งชิงช่วงท้ายเกม
+              </p>
+            </article>
+            <article class="summary-block">
+              <h3>แนวคิดของเกม</h3>
+              <p>
+                Override เน้นการสร้าง stack และการประสานงานกับคู่ Alliance มากกว่าการเล่นป้องกันอย่างเดียว
+                เกมเปิดโอกาสให้เกิด point swing จาก Toggles และ yellow Pins แต่ยังต้องรักษาความปลอดภัยและ spirit of competition
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section id="field" class="panel" aria-labelledby="field-title">
+          <div class="section-heading">
+            <p class="eyebrow">Field Overview</p>
+            <h2 id="field-title">สนามและวัตถุสำคัญ</h2>
+          </div>
+
+          <div class="field-visual" aria-label="แผนภาพสนาม VEX Override แบบย่อ">
+            <div class="field-side red-zone">Red</div>
+            <div class="field-side blue-zone">Blue</div>
+            <div class="midfield">Midfield</div>
+            <span class="goal g1">G</span>
+            <span class="goal g2">G</span>
+            <span class="goal g3">G</span>
+            <span class="goal g4">G</span>
+            <span class="goal g5 tall">Tall</span>
+            <span class="toggle t1">T</span>
+            <span class="toggle t2">T</span>
+            <span class="toggle t3">T</span>
+            <span class="toggle t4">T</span>
+            <span class="loader l1">Loader</span>
+            <span class="loader l2">Loader</span>
+            <span class="loader l3">Loader</span>
+            <span class="loader l4">Loader</span>
+          </div>
+
+          <div class="rule-grid" id="fieldCards"></div>
+        </section>
+
+        <section id="scoring" class="panel" aria-labelledby="scoring-title">
+          <div class="section-heading">
+            <p class="eyebrow">Scoring</p>
+            <h2 id="scoring-title">คะแนนและตัวคำนวณ</h2>
+          </div>
+
+          <div class="score-layout">
+            <div class="rule-grid" id="scoringCards"></div>
+            <form class="calculator" id="scoreCalculator">
+              <h3>คำนวณคะแนนฝั่งเดียว</h3>
+              <label>
+                Alliance-colored Pins ที่ Placed
+                <input type="number" min="0" max="63" value="0" name="alliancePins" />
+              </label>
+              <label>
+                Yellow Pins ที่ Owned
+                <input type="number" min="0" max="63" value="0" name="yellowPins" />
+              </label>
+              <label>
+                Robots ใน Midfield
+                <input type="number" min="0" max="2" value="0" name="midfieldRobots" />
+              </label>
+              <label class="checkbox-row">
+                <input type="checkbox" name="autoBonus" />
+                ได้ Autonomous Bonus
+              </label>
+              <output id="scoreTotal">0 คะแนน</output>
+            </form>
+          </div>
+        </section>
+
+        <section id="autonomous" class="panel" aria-labelledby="autonomous-title">
+          <div class="section-heading">
+            <p class="eyebrow">Autonomous Period</p>
+            <h2 id="autonomous-title">กฎสำคัญช่วง 15 วินาทีแรก</h2>
+          </div>
+          <div class="rule-grid" id="autonomousCards"></div>
+        </section>
+
+        <section id="gameplay" class="panel" aria-labelledby="gameplay-title">
+          <div class="section-heading">
+            <p class="eyebrow">Specific + General Game Rules</p>
+            <h2 id="gameplay-title">กฎระหว่างแข่งที่ควรรู้</h2>
+          </div>
+          <div class="rule-grid" id="gameplayCards"></div>
+        </section>
+
+        <section id="robot" class="panel" aria-labelledby="robot-title">
+          <div class="section-heading">
+            <p class="eyebrow">Robot Rules</p>
+            <h2 id="robot-title">กฎตรวจหุ่นยนต์</h2>
+          </div>
+          <div class="rule-grid" id="robotCards"></div>
+        </section>
+
+        <section id="skills" class="panel" aria-labelledby="skills-title">
+          <div class="section-heading">
+            <p class="eyebrow">Robot Skills Challenge</p>
+            <h2 id="skills-title">Robot Skills แบบย่อ</h2>
+          </div>
+          <div class="rule-grid" id="skillsCards"></div>
+        </section>
+
+        <section id="checklist" class="panel" aria-labelledby="checklist-title">
+          <div class="section-heading">
+            <p class="eyebrow">Quick Check</p>
+            <h2 id="checklist-title">เช็กลิสต์ก่อนลงสนาม</h2>
+          </div>
+          <div class="checklist" id="checklistItems"></div>
+        </section>
+
+        <section class="search-panel" aria-labelledby="search-title">
+          <div class="section-heading compact">
+            <p class="eyebrow">Rule Finder</p>
+            <h2 id="search-title">ค้นหากฎ</h2>
+          </div>
+          <input
+            id="searchBox"
+            class="search-box"
+            type="search"
+            placeholder="ค้นหา เช่น SG6, motor, Toggle, Midfield, safety"
+          />
+          <div class="search-results" id="searchResults"></div>
+        </section>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
