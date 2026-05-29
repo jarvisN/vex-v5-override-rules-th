@@ -56,6 +56,50 @@ const ruleGroups = {
 };
 
 const allRules = Object.values(ruleGroups).flat().map(([code, title, text, tone]) => ({ code, title, text, tone }));
+const ruleTitleLookup = new Map(allRules.map((rule) => [rule.code, rule.title]));
+const pageSectionText = {
+  cover: ["ปก", "หน้าปกของคู่มือ ระบุชื่อเกม Override ฤดูกาล 2026-2027 และเวอร์ชันของ Game Manual ที่ใช้เป็นแหล่งอ้างอิง"],
+  copyright: ["ประกาศลิขสิทธิ์", "หน้าประกาศสิทธิ์และข้อจำกัดการใช้งาน เอกสารต้นฉบับเป็นทรัพย์สินทางปัญญาของผู้จัดและไม่ควรนำไปเผยแพร่ซ้ำโดยไม่ได้รับอนุญาต"],
+  toc: ["สารบัญ", "หน้าสารบัญ แสดงโครงสร้างคู่มือ ตั้งแต่บทนำ กฎเกม กฎหุ่นยนต์ ทัวร์นาเมนต์ VEX U และภาคผนวก"],
+  changelog: ["Changelog", "หน้าประวัติการเปลี่ยนแปลง ใช้ตรวจว่าคู่มือที่อ่านเป็นรุ่นใดและมีการแก้ไขอะไรจากรุ่นก่อนหน้า"],
+  quick: ["Quick Reference", "หน้ารวมรหัสกฎแบบเร็ว เหมาะสำหรับเปิดหา rule code ก่อนอ่านรายละเอียดใน section หลัก"],
+  intro: ["Section 1 - Introduction", "หน้าบทนำ อธิบายวิธีอ่านคู่มือ ลำดับความน่าเชื่อถือของข้อมูล และบทบาทของ Q&A ทางการ"],
+  game: ["Section 2 - The Game", "หน้าอธิบายภาพรวมเกม Override สนาม วัตถุในเกม เป้าหมายการทำคะแนน และเจตนารมณ์ของรูปแบบการเล่น"],
+  scoring: ["Scoring", "หน้ากฎการคิดคะแนน อธิบายว่า Pins, Toggles, Midfield และ Autonomous มีผลต่อคะแนนอย่างไร"],
+  specific: ["Specific Game Rules", "หน้ากฎเฉพาะของเกม ระบุข้อจำกัดการเริ่มแมตช์ การขยายตัว การครอบครองวัตถุ Autonomous Line, Goals, Match Loads และ Endgame"],
+  general: ["Safety / General Game Rules", "หน้ากฎความปลอดภัยและกฎทั่วไป ครอบคลุมพฤติกรรมทีม ความรับผิดชอบของนักเรียน การตัดสิน และการปะทะระหว่าง Robot"],
+  skills: ["Section 3 - Robot Skills", "หน้ากฎ Robot Skills อธิบายความต่างจาก Head-to-Head, field setup, scoring และ Skills Stop Time"],
+  robot: ["Section 4 - The Robot", "หน้ากฎตรวจหุ่นยนต์ ครอบคลุมข้อจำกัดขนาด ป้ายทีม Brain, firmware, motor, วัสดุ และชิ้นส่วนที่อนุญาตหรือห้ามใช้"],
+  tournament: ["Section 5 - The Tournament", "หน้ากฎทัวร์นาเมนต์ อธิบายบทบาท Head Referee/Event Partner, schedule, ranking, alliance selection, eliminations และ skills rankings"],
+  vexu: ["Section 6 - VEX U", "หน้ากฎ VEX U และ VURC ที่ปรับจาก V5RC ปกติ รวมถึงจำนวน Robot, fabricated parts, electronics, pneumatics และรูปแบบ tournament"],
+  fieldAppendix: ["Appendix A - Field Overview", "หน้าภาคผนวกสนาม แสดงภาพรวมสนาม รายการ Game Objects/Field Elements และรายละเอียดเชิงมิติสำหรับการสร้างหรืออ้างอิงสนาม"],
+  glossary: ["Appendix B - Glossary", "หน้าคำศัพท์นิยาม ใช้อ่านความหมายทางกติกาของคำสำคัญ ซึ่งอาจต่างจากความหมายทั่วไป"],
+  violations: ["Appendix C - Rule Violations", "หน้าสรุปลักษณะการละเมิดกฎและผลที่อาจเกิดขึ้น ช่วยเชื่อม rule code กับประเภทโทษหรือการพิจารณา Match Affecting"],
+  classifications: ["Appendix D - Team Classifications", "หน้าจัดประเภททีมและบทบาทของนักเรียน ใช้แยกความรับผิดชอบของ Student, Adult และทีมตามนโยบาย VEX"],
+};
+
+function pageTitle(page) {
+  if (!page.ruleCodes.length) return pageSectionText[page.sectionKey]?.[0] || "Game Manual";
+  const titles = page.ruleCodes.slice(0, 3).map((code) => ruleTitleLookup.get(code) || code);
+  return `${titles.join(" / ")}${page.ruleCodes.length > 3 ? " และกฎต่อเนื่อง" : ""}`;
+}
+
+function pageSummary(page) {
+  return pageSectionText[page.sectionKey]?.[1] || "หน้าคู่มือที่ควรอ่านประกอบกับ section ก่อนหน้าและถัดไปเพื่อให้ตีความกฎครบถ้วน";
+}
+
+function pageStudyNotes(page) {
+  const notes = [];
+  if (page.ruleCodes.length) {
+    notes.push(`รหัสกฎที่ควรเปิดเทียบ: ${page.ruleCodes.slice(0, 8).join(", ")}`);
+    notes.push(`ประเด็นหลัก: ${page.ruleCodes.slice(0, 4).map((code) => ruleTitleLookup.get(code) || code).join("; ")}`);
+  }
+  if (["scoring", "specific"].includes(page.sectionKey)) notes.push("อ่านร่วมกับ Appendix C เพราะหลายกฎมี violation notes เพิ่มเติม");
+  if (page.sectionKey === "robot") notes.push("ควรใช้เป็น checklist ระหว่างออกแบบและก่อน inspection");
+  if (page.sectionKey === "glossary") notes.push("นิยามใน glossary มีผลเหนือความหมายทั่วไปของคำ");
+  if (!notes.length) notes.push("ใช้หน้านี้เพื่อจับตำแหน่งเนื้อหาในคู่มือก่อนอ่านรายละเอียดหัวข้อถัดไป");
+  return notes.slice(0, 3);
+}
 
 function renderRuleLists() {
   document.querySelectorAll("[data-rule-list]").forEach((container) => {
@@ -107,9 +151,59 @@ function searchRules(query) {
     .join("");
 }
 
+function renderPageTranslations(query = "") {
+  const container = document.getElementById("pageTranslationList");
+  const count = document.getElementById("pageCount");
+  if (!container || !window.PAGE_TRANSLATIONS) return;
+
+  const normalized = query.trim().toLowerCase();
+  const pages = normalized
+    ? window.PAGE_TRANSLATIONS.filter((page) =>
+        [
+          page.page,
+          pageSectionText[page.sectionKey]?.[0],
+          pageTitle(page),
+          pageSummary(page),
+          ...(page.ruleCodes || []),
+          ...pageStudyNotes(page),
+        ]
+          .join(" ")
+          .toLowerCase()
+          .includes(normalized),
+      )
+    : window.PAGE_TRANSLATIONS;
+
+  count.textContent = `${pages.length} / ${window.PAGE_TRANSLATIONS.length} หน้า`;
+  container.innerHTML = pages
+    .map(
+      (page) => `
+        <article class="translation-page-card">
+          <div class="translation-page-number">
+            <span>PDF Page</span>
+            <strong>${page.page}</strong>
+          </div>
+          <div class="translation-page-body">
+            <p class="translation-section">${pageSectionText[page.sectionKey]?.[0] || "Game Manual"}</p>
+            <h3>${pageTitle(page)}</h3>
+            <p>${pageSummary(page)}</p>
+            ${
+              page.ruleCodes.length
+                ? `<div class="code-row">${page.ruleCodes.map((code) => `<span>${code}</span>`).join("")}</div>`
+                : ""
+            }
+            <ul>${pageStudyNotes(page).map((note) => `<li>${note}</li>`).join("")}</ul>
+          </div>
+        </article>
+      `,
+    )
+    .join("");
+}
+
 renderRuleLists();
+renderPageTranslations();
 updateScore();
 searchRules("");
 
 document.getElementById("scoreCalculator").addEventListener("input", updateScore);
 document.getElementById("searchBox").addEventListener("input", (event) => searchRules(event.target.value));
+document.getElementById("pageSearch").addEventListener("input", (event) => renderPageTranslations(event.target.value));

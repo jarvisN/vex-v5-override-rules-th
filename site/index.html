@@ -17,6 +17,7 @@
         <nav>
           <a href="#toc">สารบัญ</a>
           <a href="#quick-reference">Quick Reference</a>
+          <a href="#page-by-page">แปลรายหน้า</a>
           <a href="#section-game">Section 2 - The Game</a>
           <a href="#scoring">Scoring</a>
           <a href="#specific-rules">Specific Game Rules</a>
@@ -152,6 +153,30 @@
           <footer class="page-footer">
             <span>Quick Reference Guide</span>
             <span>vi</span>
+          </footer>
+        </section>
+
+        <section class="page page-by-page" id="page-by-page" aria-labelledby="page-title">
+          <header class="page-header">
+            <span>Thai Companion Translation</span>
+            <span>Page-by-page</span>
+          </header>
+          <h2 id="page-title">แปล/อธิบายรายหน้า 1-131</h2>
+          <p class="lead">
+            ส่วนนี้ไล่ตามหน้าของ PDF ต้นฉบับทุกหน้า โดยให้คำอธิบายภาษาไทยแบบปลอดภัยสำหรับเว็บ public:
+            มีหมวดของหน้า รหัสกฎที่เกี่ยวข้อง และจุดอ่านสำคัญโดยไม่เผยแพร่ข้อความต้นฉบับทั้งหน้า
+          </p>
+          <div class="page-toolbox">
+            <label>
+              ค้นหาหน้า / หมวด / รหัสกฎ
+              <input id="pageSearch" type="search" placeholder="เช่น 24, SC1, Robot, Appendix B, VEX U" />
+            </label>
+            <div class="page-count" id="pageCount">131 หน้า</div>
+          </div>
+          <div class="page-translation-list" id="pageTranslationList"></div>
+          <footer class="page-footer">
+            <span>Page-by-page Thai companion</span>
+            <span>1-131</span>
           </footer>
         </section>
 
@@ -326,6 +351,7 @@
       </main>
     </div>
 
+    <script src="./pageData.js"></script>
     <script src="./app.js"></script>
   </body>
 </html>
